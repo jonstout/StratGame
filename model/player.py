@@ -10,12 +10,9 @@ class Player(object):
         self.name = str(name)
         self.units = {}
 
-    def SetUnits(self, units):
-        uid = UnitIDGenerator()
-
+    def SetUnits(self, units, uid_generator):
         for u in units:
-            print(u)
-            i = uid.next()
+            i = uid_generator.next()
             u_obj = Unit(u["position"], u["type"], i)
             self.units[i] = u_obj            
 

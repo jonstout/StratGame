@@ -4,7 +4,7 @@
 
 import string
 import unit
-from unit import Unit, UnitGenerator
+from unit import Unit, UnitGenerator, UnitIDGenerator
 from gamemap import GameMap
 
 class Game(object):
@@ -15,13 +15,14 @@ class Game(object):
 
         print("Board Dimensions:", self.game_map.GetDimensions())
 
+        self.uid_generator = UnitIDGenerator()
         units = UnitGenerator("./maps/" + game_map + ".json")
         if len(units) < len(players):
             self.game_on = False
             print("To many players for this map")
         else:
             for i in range( len(units) ):
-                players[i].SetUnits(units[i])
+                players[i].SetUnits(units[i], self.uid_generator)
         self.players = players
         
         self.play_counter = 0
@@ -33,7 +34,6 @@ class Game(object):
 
     def ListUnits(self):
         units = self.players[self.current_player].GetUnits()
-        print(units)
         for u in units:
             print(str(units[u]))
     
@@ -41,6 +41,8 @@ class Game(object):
         s_parts = string.split(cmd, " ")
         uid = int(s_parts[1])
         pos = string.split(s_parts[2], ".")
+        pos[0] = int(pos[0])
+        pos[1] = int(pos[1])
         if self.game_map.ValidPosition(pos[0], pos[1]):
             self.players[self.current_player].MoveUnit(uid, pos[0], pos[1])
 

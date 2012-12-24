@@ -13,7 +13,6 @@ class GameMap():
         
         self.Height = m["dimensions"]["height"]
         self.Width = m["dimensions"]["width"]
-        self.Dimensions = (self.Width, self.Height)
         
         self.SpawnPositions = m["spawn_positions"]
 
@@ -27,7 +26,7 @@ class GameMap():
         return True
 
     def GetDimensions(self):
-        return self.Dimensions
+        return (self.Width, self.Height)
 
     def GetSpawnPosition(self):
         i = random.randint(0, len(self.SpawnPositions) - 1)

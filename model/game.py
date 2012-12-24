@@ -2,9 +2,10 @@
 #
 #
 
-from gamemap import GameMap
+import string
 import unit
 from unit import Unit, UnitGenerator
+from gamemap import GameMap
 
 class Game(object):
     def __init__(self, players, game_map):
@@ -31,9 +32,16 @@ class Game(object):
         return self.play_counter % len(self.players)
 
     def ListUnits(self):
-        for u in self.players[self.current_player].GetUnits():
-            print(u["type"], u["position"])
+        units = self.players[self.current_player].GetUnits()
+        for uid in units:
+            print(units[uid]["uid"], units[uid]["type"], units[uid]["position"])
     
+    def MoveUnit(self, cmd):
+        s_parts = string.split(cmd, " ")
+        uid = int(s_parts[1])
+        pos = string.split(s_parts[2], ".")
+        self.players[self.current_player].MoveUnit(uid, pos[0], pos[1])
+
     def Done(self):
         print("Player" + str(self.current_player) + "'s turn is over.")
         self.current_player = self.NextPlayer()
@@ -42,6 +50,7 @@ class Game(object):
     def Run(self):
         print("It's Player" + str(self.current_player) + "'s turn.")
 
+        # Start game command loop
         while self.game_on:
             cmd = raw_input("$ ")
 
@@ -54,8 +63,12 @@ class Game(object):
                 print("done - End player's turn")
             elif cmd == "list_units":
                 self.ListUnits()
+            elif cmd[:9] == "move_unit":
+                self.MoveUnit(cmd)
             elif cmd == "done":
                 self.Done()
             else:
                 print("Bad command")
+
+        # Game loop has been broken by exit command
         print("Game Over")

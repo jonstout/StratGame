@@ -1,0 +1,10 @@
+{
+"infantry" : {
+	   "infantry" : ".8",
+	   "tank" : ".1"
+},
+"tank" : {
+       "infantry" : "1",
+       "tank" : ".8"
+}
+}

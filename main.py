@@ -4,6 +4,7 @@ import os
 
 from model.game import Game
 from model.player import Player
+from util.attack_matrix import BuildAttackMatrix
 
 def SelectGameMap():
     game_maps = os.listdir("./maps/")
@@ -25,5 +26,6 @@ if __name__ == "__main__":
     p1 = Player(1)
     p2 = Player(2)
 
-    g = Game([p1,p2], game_map)
+    a = BuildAttackMatrix("./model/units/units.json")
+    g = Game([p1,p2], a, game_map)
     g.Run()

@@ -3,6 +3,7 @@
 #
 
 from unit import UnitIDGenerator
+from unit import Unit
 
 class Player(object):
     def __init__(self, name):
@@ -13,9 +14,10 @@ class Player(object):
         uid = UnitIDGenerator()
 
         for u in units:
+            print(u)
             i = uid.next()
-            self.units[i] = u
-            self.units[i]["uid"] = i
+            u_obj = Unit(u["position"], u["type"], i)
+            self.units[i] = u_obj            
 
     def GetUnits(self):
         return self.units

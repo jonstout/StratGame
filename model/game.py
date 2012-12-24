@@ -33,14 +33,16 @@ class Game(object):
 
     def ListUnits(self):
         units = self.players[self.current_player].GetUnits()
-        for uid in units:
-            print(units[uid]["uid"], units[uid]["type"], units[uid]["position"])
+        print(units)
+        for u in units:
+            print(str(units[u]))
     
     def MoveUnit(self, cmd):
         s_parts = string.split(cmd, " ")
         uid = int(s_parts[1])
         pos = string.split(s_parts[2], ".")
-        self.players[self.current_player].MoveUnit(uid, pos[0], pos[1])
+        if self.game_map.ValidPosition(pos[0], pos[1]):
+            self.players[self.current_player].MoveUnit(uid, pos[0], pos[1])
 
     def Done(self):
         print("Player" + str(self.current_player) + "'s turn is over.")

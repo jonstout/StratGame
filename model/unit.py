@@ -36,4 +36,3 @@ def UnitIDGenerator():
     while True:
         unitIDReference += 1
         yield unitIDReference
-

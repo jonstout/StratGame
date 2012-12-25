@@ -22,9 +22,12 @@ class Player(object):
                 u_obj = Unit(u["position"], u["type"], i)
             self.units[i] = u_obj
 
+    def DestroyUnit(self, uid):
+        del(self.units[uid])
+
     def GetUnit(self, uid):
         try:
-            return self.units[uid]
+            return self.units[int(uid)]
         except KeyError:
             return None
 

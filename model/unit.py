@@ -18,9 +18,6 @@ class Unit():
         self.X = x
         self.Y = y
 
-    def Destroy(self):
-        del(self)
-
     def __str__(self):
         uid = "uID: "+str(self.uid)+", "
         pos = "Position: ["+str(self.X)+", "+str(self.Y)+"], "

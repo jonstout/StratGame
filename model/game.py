@@ -57,23 +57,35 @@ class Game(object):
         s_parts = string.split(cmd, " ")
         uid1 = int(s_parts[1])
         uid2 = int(s_parts[2])
-        u1 = self.players[self.current_player].GetUnit(uid1)
 
-        # Find the uid from players
-        u2 = None
-        for p in self.players:
-            u = self.players[self.current_player].GetUnit(uid2)
-            if u != None:
-                if u1.Attack(self.AttackMatrix, u):
-                    print(str(uid2) + " was destroyed")
-                    u2 = True
-                else:
-                    print(str(uid2) + " was hit.")
-                    u2 = True
-        if not u2:
-            print("Unit is not attackable")
+        # Make sure targeted unit is not your own
+        if uid1 in self.players[self.current_player].GetUnits():
+            print(str(uid1) + " is your own unit. You cannot attack it.")
+            return False
+        # Make sure attacking unit is owned by current player
+        if uid2 not in self.players[self.current_player].GetUnits():
+            print(str(uid2) + " is not your unit.")
+            return False
+        # Units cannot attack themselves
+        if uid1 == uid2:
+            print("A unit cannot attack itself")
             return False
 
+        u2 = self.players[self.current_player].GetUnit(uid2)
+        if u2 != None:
+            # Find the uid from players
+            for p in self.players:
+                u = p.GetUnit(uid1)
+                if u != None:
+                    if u2.Attack(self.AttackMatrix, u):
+                        p.DestroyUnit(uid1)
+                        print(str(u) + " was destroyed")
+                        return True
+                    else:
+                        print(str(uid1) + " was hit.")
+                        return True
+        print("Unit is not attackable")
+        return False
 
     def Run(self):
         print("It's Player" + str(self.current_player) + "'s turn.")

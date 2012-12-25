@@ -13,9 +13,11 @@ class Infantry(Unit):
         self.HP = 10
 
     def Attack(self, a_mtrx, unit):
-        unit.HP -= int(a_mtrx[self.Type][unit.Type]*self.AP)
+        """ Attack(attack_matrix, unitID)
+        Returns True if unit is destroyed, else False.
+        """
+        unit.HP -= int(float(a_mtrx[self.Type][unit.Type])*self.AP)
         if unit.HP <= 0:
-            unit.Destroy()
             return True
         return False
 

@@ -6,10 +6,41 @@ import string
 import unit
 from unit import Unit, UnitGenerator, UnitIDGenerator
 from gamemap import GameMap
+from turns import Turns
 
 class Game(object):
+    """ Game
+    self.unit_factories - type(map[player_id]UnitFactory)
+    - This is a list of all unit factories. This is where
+    all units can be built.
+
+    self.game_map - type(GameMap)
+    - A representation of the gamemap. Map tiles are stored
+    here and can be referenced for movement costs and tile
+    type.
+
+    self.players - type(map[player_id]Player)
+    - This is where all player related information is stored.
+    This includes player_id, score, and money.
+
+    self.turns - type(Turns)
+    - This tracks whose turn it is along with total number
+    of turns.
+
+    self.units - type(map[player_id]map[unit_id]Unit)
+    This holds a map of all units stored by player_id and unit_id.
+    Units can attack other players' units (if they're in range)
+    and can move to new locations that are not occupied by other
+    units.
+    """
     def __init__(self, players, a_mtrx, game_map):
         self.game_map = GameMap("./maps/" + game_map + ".json")
+
+        
+        self.turns = Turns()
+        for i in range( len(players) ):
+            self.turns.AddPlayer(i)
+
         self.game_turn = 0
         self.game_on = True
 
@@ -26,16 +57,9 @@ class Game(object):
             for i in range( len(units) ):
                 players[i].SetUnits(units[i], self.uid_generator)
         self.players = players
-        
-        self.play_counter = 0
-        self.current_player = 0
-
-    def NextPlayer(self):
-        self.play_counter += 1
-        return self.play_counter % len(self.players)
 
     def ListUnits(self):
-        units = self.players[self.current_player].GetUnits()
+        units = self.players[self.turns.CurrentPlayer()].GetUnits()
         for u in units:
             print(str(units[u]))
     
@@ -46,12 +70,12 @@ class Game(object):
         pos[0] = int(pos[0])
         pos[1] = int(pos[1])
         if self.game_map.ValidPosition(pos[0], pos[1]):
-            self.players[self.current_player].MoveUnit(uid, pos[0], pos[1])
+            self.players[self.turns.CurrentPlayer()].MoveUnit(uid, pos[0], pos[1])
 
     def Done(self):
-        print("Player" + str(self.current_player) + "'s turn is over.")
-        self.current_player = self.NextPlayer()
-        print("It's Player" + str(self.current_player) + "'s turn.")
+        print("Player" + str(self.turns.CurrentPlayer()) + "'s turn is over.")
+        self.turns.NextPlayer()
+        print("It's Player" + str(self.turns.CurrentPlayer()) + "'s turn.")
 
     def AttackUnit(self, cmd):
         s_parts = string.split(cmd, " ")
@@ -59,11 +83,11 @@ class Game(object):
         uid2 = int(s_parts[2])
 
         # Make sure targeted unit is not your own
-        if uid1 in self.players[self.current_player].GetUnits():
+        if uid1 in self.players[self.turns.CurrentPlayer()].GetUnits():
             print(str(uid1) + " is your own unit. You cannot attack it.")
             return False
         # Make sure attacking unit is owned by current player
-        if uid2 not in self.players[self.current_player].GetUnits():
+        if uid2 not in self.players[self.turns.CurrentPlayer()].GetUnits():
             print(str(uid2) + " is not your unit.")
             return False
         # Units cannot attack themselves
@@ -71,7 +95,7 @@ class Game(object):
             print("A unit cannot attack itself")
             return False
 
-        u2 = self.players[self.current_player].GetUnit(uid2)
+        u2 = self.players[self.turns.CurrentPlayer()].GetUnit(uid2)
         if u2 != None:
             # Find the uid from players
             for p in self.players:
@@ -88,7 +112,7 @@ class Game(object):
         return False
 
     def Run(self):
-        print("It's Player" + str(self.current_player) + "'s turn.")
+        print("It's Player" + str(self.turns.CurrentPlayer()) + "'s turn.")
 
         # Start game command loop
         while self.game_on:

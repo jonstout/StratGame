@@ -16,6 +16,9 @@ class GameMap():
         
         self.SpawnPositions = m["spawn_positions"]
 
+        self.DefaultUnits = m["units"]
+        self.NumberOfPlayers = len(self.DefaultUnits)
+
     def ValidPosition(self, x, y):
         if y >= self.Height or y < 0:
             print("Invalid map position.")
@@ -24,6 +27,12 @@ class GameMap():
             print("Invalid map position.")
             return False
         return True
+
+    def GetNumberOfPlayers(self):
+        return self.NumberOfPlayers
+
+    def GetDefaultUnits(self):
+        return self.DefaultUnits
 
     def GetDimensions(self):
         return (self.Width, self.Height)

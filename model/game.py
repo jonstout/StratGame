@@ -33,35 +33,21 @@ class Game(object):
     and can move to new locations that are not occupied by other
     units.
     """
-    def __init__(self, players, a_mtrx, game_map):
-        self.game_map = GameMap("./maps/" + game_map + ".json")
-
+    def __init__(self, attack_matrix, game_map, players, turns, units):
+        self.attack_matrix = attack_matrix
+        self.game_map = game_map
+        self.players = players
+        self.turns = turns
+        self.units = units
         
-        self.turns = Turns()
-        for i in range( len(players) ):
-            self.turns.AddPlayer(i)
-
-        self.game_turn = 0
         self.game_on = True
 
         print("Board Dimensions:", self.game_map.GetDimensions())
 
-        self.AttackMatrix = a_mtrx
-
-        self.uid_generator = UnitIDGenerator()
-        units = UnitGenerator("./maps/" + game_map + ".json")
-        if len(units) < len(players):
-            self.game_on = False
-            print("To many players for this map")
-        else:
-            for i in range( len(units) ):
-                players[i].SetUnits(units[i], self.uid_generator)
-        self.players = players
-
     def ListUnits(self):
-        units = self.players[self.turns.CurrentPlayer()].GetUnits()
-        for u in units:
-            print(str(units[u]))
+        for u in self.units:
+            if self.units[u].GetPID() == self.turns.CurrentPlayer():
+                print( str(self.units[u]) )
     
     def MoveUnit(self, cmd):
         s_parts = string.split(cmd, " ")
@@ -69,8 +55,9 @@ class Game(object):
         pos = string.split(s_parts[2], ".")
         pos[0] = int(pos[0])
         pos[1] = int(pos[1])
-        if self.game_map.ValidPosition(pos[0], pos[1]):
-            self.players[self.turns.CurrentPlayer()].MoveUnit(uid, pos[0], pos[1])
+        if self.game_map.ValidPosition(pos[0], pos[1]) and \
+                self.units[uid].GetPID() == self.turns.CurrentPlayer():
+            self.units[uid].Move(pos[0], pos[1])
 
     def Done(self):
         print("Player" + str(self.turns.CurrentPlayer()) + "'s turn is over.")
@@ -79,37 +66,35 @@ class Game(object):
 
     def AttackUnit(self, cmd):
         s_parts = string.split(cmd, " ")
-        uid1 = int(s_parts[1])
-        uid2 = int(s_parts[2])
+        try:
+            unit1 = self.units[ int(s_parts[1]) ]
+            unit2 = self.units[ int(s_parts[2]) ]
+        except KeyError as e:
+            print("Invalid UnitID: "+str(e))
+            return False
 
         # Make sure targeted unit is not your own
-        if uid1 in self.players[self.turns.CurrentPlayer()].GetUnits():
-            print(str(uid1) + " is your own unit. You cannot attack it.")
+        if unit1.GetPID() == self.turns.CurrentPlayer():
+            print(str(unit1.GetUID()) + " is your own unit. You cannot attack it.")
             return False
         # Make sure attacking unit is owned by current player
-        if uid2 not in self.players[self.turns.CurrentPlayer()].GetUnits():
-            print(str(uid2) + " is not your unit.")
+        if unit2.GetPID() != self.turns.CurrentPlayer():
+            print(str(unit2.GetUID()) + " is not your unit.")
             return False
         # Units cannot attack themselves
-        if uid1 == uid2:
+        if unit1.GetUID() == unit2.GetUID():
             print("A unit cannot attack itself")
             return False
 
-        u2 = self.players[self.turns.CurrentPlayer()].GetUnit(uid2)
-        if u2 != None:
-            # Find the uid from players
-            for p in self.players:
-                u = p.GetUnit(uid1)
-                if u != None:
-                    if u2.Attack(self.AttackMatrix, u):
-                        p.DestroyUnit(uid1)
-                        print(str(u) + " was destroyed")
-                        return True
-                    else:
-                        print(str(uid1) + " was hit.")
-                        return True
-        print("Unit is not attackable")
-        return False
+        u1_type = unit1.GetType()
+        u2_type = unit2.GetType()
+
+        atk_mult = self.attack_matrix.GetAttackMultiplier(u1_type, u2_type)
+
+        # If unit1 was unable to defend remove from game
+        if not unit1.Defend(unit2.GetHP(), atk_mult):
+            self.players[self.turns.CurrentPlayer()].Destroy(unit1.GetUID())
+            del(self.units[unit1.GetUID()])
 
     def Run(self):
         print("It's Player" + str(self.turns.CurrentPlayer()) + "'s turn.")

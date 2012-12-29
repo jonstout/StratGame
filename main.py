@@ -3,8 +3,11 @@
 import os
 
 from model.game import Game
+from model.game_map import GameMap
 from model.player import Player
-from util.attack_matrix import BuildAttackMatrix
+from model.turns import Turns
+from model.unit import Unit, UnitIDGenerator
+from model.attack_matrix import AttackMatrix
 
 def SelectGameMap():
     game_maps = os.listdir("./maps/")
@@ -21,11 +24,26 @@ def SelectGameMap():
             return i
 
 if __name__ == "__main__":
-    game_map = SelectGameMap()
+    selected_map = SelectGameMap()
 
-    p1 = Player(1)
-    p2 = Player(2)
+    attack_matrix = AttackMatrix("./model/units.json")
+    game_map = GameMap("./maps/" + selected_map + ".json")
 
-    a = BuildAttackMatrix("./model/units/units.json")
-    g = Game([p1,p2], a, game_map)
+    players = [Player(1), Player(2)]
+
+    turns = Turns()
+    units = {}
+
+    if len(players) == game_map.GetNumberOfPlayers():
+        d_units = game_map.GetDefaultUnits()
+        u_gen = UnitIDGenerator()
+
+        for i in range( len(players) ):
+            p_id = players[i].GetPID()
+            turns.AddPlayer(p_id)
+            for u in d_units[i]:
+                unit = Unit(u, p_id, u_gen.next())
+                units[unit.GetUID()] = unit
+
+    g = Game(attack_matrix, game_map, players, turns, units)
     g.Run()

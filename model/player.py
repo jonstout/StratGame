@@ -7,32 +7,40 @@ from unit import Unit
 from units.infantry import Infantry
 
 class Player(object):
-    def __init__(self, name):
-        self.name = str(name)
-        self.units = {}
+    def __init__(self, p_id):
+        """
+        Player object used to track funds throughout game, and list
+        statistics of player.
+        
+        @arg p_id: Player ID
+        @param units: Array of unit IDs owned by player
+        
+        TODO:
+        Make self.units a sorted list.
+        """
+        self.p_id = p_id
+        self.units = []
 
-    def SetUnits(self, units, uid_generator):
-        for u in units:
-            i = uid_generator.next()
-            u_obj = Unit(u["position"], u["type"], i)
+    def GetPID(self):
+        """
+        Returns the player ID of this player.
+        """
+        return self.p_id
 
-            if u["type"] == "infantry":
-                u_obj = Infantry(u["position"], i)
-            else:
-                u_obj = Unit(u["position"], u["type"], i)
-            self.units[i] = u_obj
+    def AddUID(self, u_id):
+        """
+        Adds u_id to list of unit IDs owned by this player.
+        
+        @arg u_id: ID of Unit to be added
+        """
+        self.units.append(u_id)
 
-    def DestroyUnit(self, uid):
-        del(self.units[uid])
+    def RemoveUID(self, u_id):
+        """
+        Removes u_id from list of unit IDs owned by this
+        player. Usually means the unit represented by this
+        unit ID has been destroyed.
 
-    def GetUnit(self, uid):
-        try:
-            return self.units[int(uid)]
-        except KeyError:
-            return None
-
-    def GetUnits(self):
-        return self.units
-
-    def MoveUnit(self, uid, x, y):
-        self.units[uid].Move(x, y)
+        @arg u_id: ID of Unit to be removed
+        """
+        self.units.remove(u_id)

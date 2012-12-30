@@ -38,10 +38,10 @@ class Unit():
     def Defend(self, u_hp, u_attack_multiplier):
         """ Decreases this unit's HP
 
-        @arg u_type: Type of attacking unit
-        @arg u_attack_multiplier: HP of attacking unit
+        @arg u_hp: HP of attacking unit
+        @arg u_attack_multiplier: Attack mult. of attacking unit
         """
-        self.HP -= int( float(u_attack_multiplier) * self.HP )
+        self.HP -= int( float(u_attack_multiplier) * u_hp )
 
         if self.HP > 0:
             print("Unit "+str(self.uid)+": "+str(self.HP)+" life left")

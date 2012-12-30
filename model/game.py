@@ -93,7 +93,6 @@ class Game(object):
 
         # If unit1 was unable to defend remove from game
         if not unit1.Defend(unit2.GetHP(), atk_mult):
-            self.players[self.turns.CurrentPlayer()].Destroy(unit1.GetUID())
             del(self.units[unit1.GetUID()])
 
     def Run(self):
@@ -109,6 +108,8 @@ class Game(object):
                 print("exit - End program")
                 print("help - Print this help message")
                 print("list_units - List available units and their location")
+                print("attack_unit <u1> <u2> - Attack unit u1 with unit u2")
+                print("move_unit <u1> <x>.<y> - Move unit u1 to position (x, y)")
                 print("done - End player's turn")
             elif cmd == "list_units":
                 self.ListUnits()

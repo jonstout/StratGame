@@ -1,12 +1,42 @@
 {
+"buildings" : [
+	[{
+		"type" : "land",
+		"position" : [2,2]
+	},
+	{
+		"type" : "air",
+		"position" : [2,3]
+	},
+	{
+		"type" : "sea",
+		"position" : [2,4]
+	},
+	{
+		"type" : "base",
+		"position" : [2,5]
+	}],
+	[{
+		"type" : "land",
+		"position" : [3,2]
+	},
+	{
+		"type" : "air",
+		"position" : [3,3]
+	},
+	{
+		"type" : "sea",
+		"position" : [3,4]
+	},
+	{
+		"type" : "base",
+		"position" : [3,5]
+	}]
+],
 "dimensions" : {
 	     "width" : 8,
 	     "height" : 6
 },
-"spawn_positions" : [
-		  [0, 0],
-		  [7, 5]
-],
 "units" : [
 	[{
 		"type" : "infantry",

@@ -14,8 +14,6 @@ class GameMap():
         self.Height = m["dimensions"]["height"]
         self.Width = m["dimensions"]["width"]
         
-        self.SpawnPositions = m["spawn_positions"]
-
         self.DefaultUnits = m["units"]
         self.NumberOfPlayers = len(self.DefaultUnits)
 
@@ -36,11 +34,3 @@ class GameMap():
 
     def GetDimensions(self):
         return (self.Width, self.Height)
-
-    def GetSpawnPosition(self):
-        i = random.randint(0, len(self.SpawnPositions) - 1)
-        if self.ValidPosition(self.SpawnPositions[i][0], self.SpawnPositions[i][1]):
-            return self.SpawnPositions[i]
-        else:
-            print("Invalid spawn position")
-            raise ValueError

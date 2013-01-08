@@ -1,0 +1,17 @@
+{
+"air" : {
+      "units" : { }
+},
+"base" : {
+       "units" : { }
+},
+"hq" : {
+     "units" : { }
+},
+"land" : {
+       "units" : { }
+},
+"sea" : {
+      "units" : { }
+}
+}

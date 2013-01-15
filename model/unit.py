@@ -30,6 +30,9 @@ class Unit():
     def GetType(self):
         return self.Type
 
+    def set_id(self, _id):
+        self.uid = _id
+
     def Move(self, x, y):
         self.X = x
         self.Y = y
@@ -56,16 +59,3 @@ class Unit():
         typ = "Type: "+self.Type
         hp = "HP: "+str(self.HP)
         return(uid+pos+typ+hp)
-
-def UnitGenerator(path):
-    f = open(path)
-    conf = json.load(f)
-    f.close()
-
-    return conf["units"]
-
-def UnitIDGenerator():
-    unitIDReference = 0
-    while True:
-        unitIDReference += 1
-        yield unitIDReference

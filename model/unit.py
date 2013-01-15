@@ -14,6 +14,9 @@ class Unit():
     def GetPosition(self):
         return (self.X, self.Y)
 
+    def set_id(self, _id):
+        self.uid = _id
+
     def Move(self, x, y):
         self.X = x
         self.Y = y
@@ -23,16 +26,4 @@ class Unit():
         pos = "Position: ["+str(self.X)+", "+str(self.Y)+"], "
         typ = "Type: "+self.Type
         return(uid+pos+typ)
-
-def UnitGenerator(path):
-    f = open(path)
-    conf = json.load(f)
-    f.close()
-
-    return conf["units"]
-
-def UnitIDGenerator():
-    unitIDReference = 0
-    while True:
-        unitIDReference += 1
-        yield unitIDReference
+k

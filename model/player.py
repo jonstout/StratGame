@@ -2,7 +2,7 @@
 #
 #
 
-from unit import UnitIDGenerator
+from unitmanager import UnitIdGenerator
 from unit import Unit
 
 class Player(object):
@@ -14,9 +14,19 @@ class Player(object):
         @arg p_id: Player ID
         """
         self.p_id = p_id
+        self.units = []
 
     def GetPID(self):
         """
         Returns the player ID of this player.
         """
         return self.p_id
+
+    def my_unit(self, unit):
+        return unit in self.units
+
+    def add_unit_id(self, u_id):
+        self.units.append(u_id)
+
+    def get_units(self):
+        return self.units

@@ -5,6 +5,8 @@ import json
 class UnitManager(object):
     def __init__(self):
         """
+        A UnitManager is responsible for keeping track of all
+        game units.
         {
         "0": [ {"type": "infantry", "position": [1, 1]} ],
         "1": [ {"type": "infantry", "position": [1, 2]} ]
@@ -14,10 +16,15 @@ class UnitManager(object):
         self.units = {}
 
     def add_unit(self, unit):
+        """
+        Adds a unit to this UnitManager. Returns the unit id
+        of the newly created unit.
+        """
         _id = self.id_generator.next()
         unit.set_id(_id)
         self.units[_id] = unit
-        
+        return _id
+
     def del_unit(self, u_id):
         del( self.units[u_id] )
 

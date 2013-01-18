@@ -1,18 +1,33 @@
-# StratGame
+## Player Actions
 
-## Player
-### func GetPID(self)
-Returns the player ID of this player.
+move_unit u_id x y
 
-## GameMap 
-### func ValidPosition(self, x, y)
-Returns True if (x, y) is a valid position on this GameMap.
+attack_unit du_id au_id
 
-### func GetNumberOfPlayers(self)
-Returns the supported number of players on this GameMap.
+cap_building b_id u_id
 
-### func GetDefaultUnits(self)
-Returns an array of the default units contained on this GameMap represented as a dict.
+## Needed calls
 
-### func GetDimensions(self)
-Retruns the dimensions of this GameMap as a tuple in the form (GameMap.Width, GameMap.Height)
+unit_mine? u_id
+
+## GUI Calls
+
+get_units
+- hp
+- owner
+- position
+- type
+- uID
+
+get_buildings
+- captured
+- capture_cost
+- bID
+- owner
+- position
+- type
+
+get_tiles
+- movement_cost
+- position
+- type

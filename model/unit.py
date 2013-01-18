@@ -5,15 +5,15 @@
 import json
 
 class Unit():
-    def __init__(self, conf, p_id, u_id):
-        self.X = conf["position"][0]
-        self.Y = conf["position"][1]
+    def __init__(self, _type, _position, _id, player_id):
+        self.X = _position[0]
+        self.Y = _position[1]
         
-        self.Type = conf["type"]
+        self.Type = _type
         self.HP = 10
 
-        self.pid = p_id
-        self.uid = u_id
+        self.pid = player_id
+        self.uid = _id
 
     def GetPID(self):
         return self.pid

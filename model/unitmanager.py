@@ -1,4 +1,4 @@
-import model.unit
+from model.unit import Unit
 
 import json
 
@@ -15,14 +15,14 @@ class UnitManager(object):
         self.id_generator = UnitIdGenerator()
         self.units = {}
 
-    def add_unit(self, unit):
+    def add_unit(self, json, player_id):
         """
         Adds a unit to this UnitManager. Returns the unit id
         of the newly created unit.
         """
         _id = self.id_generator.next()
-        unit.set_id(_id)
-        self.units[_id] = unit
+        unit = Unit(json["type"], json["position"], _id, player_id)
+        self.units[unit.GetUID()] = unit
         return _id
 
     def del_unit(self, u_id):

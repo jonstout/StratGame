@@ -7,6 +7,7 @@ from model.game_map import GameMap
 from model.player import Player
 from model.turns import Turns
 from model.unit import Unit
+from model.unitmanager import UnitManager
 from model.unitmanager import UnitIdGenerator
 from model.attack_matrix import AttackMatrix
 
@@ -32,6 +33,7 @@ if __name__ == "__main__":
 
     players = [Player(1), Player(2)]
 
+    """
     turns = Turns()
     units = {}
 
@@ -46,12 +48,15 @@ if __name__ == "__main__":
                 unit = Unit(u, p_id, u_gen.next())
                 units[unit.GetUID()] = unit
 
-    """ NEW::
-    game_units = game_map.GetDefualtUnits()
-    for player_id in game_units
-        for unit in game_units[player_id]:
-            u_id = units.add_unit(unit)
-            players[player_id].add_unit_id(u_id)
     """
-    g = Game(attack_matrix, game_map, players, turns, units)
-    g.Run()
+    game_units = game_map.GetDefaultUnits()
+    unit_manager = UnitManager()
+    
+    for player_id in game_units:
+        for unit in game_units[player_id]:
+            unit_manager.add_unit(unit, int(player_id))
+
+    print(unit_manager)
+
+    #g = Game(attack_matrix, game_map, players, turns, units)
+    #g.Run()

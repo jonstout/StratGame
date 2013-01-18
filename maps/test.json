@@ -37,8 +37,9 @@
 	     "width" : 8,
 	     "height" : 6
 },
-"units" : [
-	[{
+"units" : {
+	"0": [
+	{
 		"type" : "infantry",
 		"position" : [0, 1]
 	},
@@ -46,7 +47,7 @@
 		"type" : "infantry",
 		"position" : [1, 0]
 	}],
-	[{
+	"1": [{
 		"type" : "infantry",
 		"position" : [6, 3]
 	},
@@ -54,6 +55,5 @@
 		"type" : "infantry",
 		"position" : [5, 4]
 	}]
-
-]
+	}
 }

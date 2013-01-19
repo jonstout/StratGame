@@ -74,25 +74,20 @@ class Game(object):
     def AttackUnit(self, cmd):
         s_parts = string.split(cmd, " ")
 
-        d_unit = self.units.get_unit( int(s_pars[1]) )
-        a_unit = self.units.get_unit( int(s_pars[2]) )
-        # Make sure you're not attacking yourself.
-        if self.units.my_unit(d_unit.GetUID(), self.turns.CurrentPlayer()):
-            print("{} is your own unit. You cannot attack it.".format(d_unit))
-            return False
+        d_unit = self.units.get_unit( int(s_parts[1]) )
+        a_unit = self.units.get_unit( int(s_parts[2]) )
         # Make sure attacking unit is owned by current player
         if not self.units.my_unit(a_unit.GetUID(), self.turns.CurrentPlayer()):
-            print("{} is not your unit.".format(a_unit))
+            print("{} is not your unit.".format(a_unit.GetUID()))
             return False
-        # Units cannot attack themselves
-        if d_unit.GetUID() == a_unit.GetUID():
-            print("A unit cannot attack itself")
+        # Make sure you're not attacking yourself.
+        if self.units.my_unit(d_unit.GetUID(), self.turns.CurrentPlayer()):
+            print("{} is your own unit. You cannot attack it.".format(d_unit.GetUID()))
             return False
         # Get attack multiplier based on Unit types
         u1_type = d_unit.GetType()
         u2_type = a_unit.GetType()
         atk_mult = self.attack_matrix.GetAttackMultiplier(u1_type, u2_type)
-
         # If unit1 was unable to defend remove from game
         if not d_unit.Defend(a_unit.GetHP(), atk_mult):
             self.units.del_unit(d_unit.GetUID())

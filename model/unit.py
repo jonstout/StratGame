@@ -57,5 +57,6 @@ class Unit():
         uid = "uID: {}, ".format(self.uid)
         pos = "Position: [{}, {}], ".format(self.X, self.Y)
         typ = "Type: {}, ".format(self.Type)
-        hp = "HP: {} ".format(self.HP)
-        return(uid+pos+typ+hp)
+        hp = "HP: {}, ".format(self.HP)
+        pid = "PlayerID: {} ".format(self.pid)
+        return(uid+pos+typ+hp+pid)

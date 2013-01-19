@@ -32,9 +32,9 @@ if __name__ == "__main__":
     game_map = GameMap("./maps/" + selected_map + ".json")
 
     players = [Player(1), Player(2)]
+    turns = Turns()
 
     """
-    turns = Turns()
     units = {}
 
     if len(players) == game_map.GetNumberOfPlayers():
@@ -53,10 +53,9 @@ if __name__ == "__main__":
     unit_manager = UnitManager()
     
     for player_id in game_units:
+        turns.AddPlayer( int(player_id) )
         for unit in game_units[player_id]:
             unit_manager.add_unit(unit, int(player_id))
 
-    print(unit_manager)
-
-    #g = Game(attack_matrix, game_map, players, turns, units)
-    #g.Run()
+    g = Game(attack_matrix, game_map, players, turns, unit_manager)
+    g.Run()

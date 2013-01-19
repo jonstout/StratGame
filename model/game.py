@@ -34,67 +34,68 @@ class Game(object):
     and can move to new locations that are not occupied by other
     units.
     """
-    def __init__(self, attack_matrix, game_map, players, turns, units):
+    def __init__(self, attack_matrix, game_map, players, turns, unit_manager):
         self.attack_matrix = attack_matrix
         self.game_map = game_map
         self.players = players
         self.turns = turns
-        self.units = units
-        
+        self.units = unit_manager
         self.game_on = True
 
         print("Board Dimensions:", self.game_map.GetDimensions())
 
     def ListUnits(self):
-        for u in self.units:
-            if self.units[u].GetPID() == self.turns.CurrentPlayer():
-                print( str(self.units[u]) )
+        """
+        Lists all units in the game. Of course you can only use
+        your game units.
+        """
+        for u in self.units.get_units():
+            print u
     
     def MoveUnit(self, cmd):
+        """
+        Moves a unit if the movement is valid. Returns True if a
+        valid move; Else False.
+        """
         s_parts = string.split(cmd, " ")
         uid = int(s_parts[1])
         pos = string.split(s_parts[2], ".")
         pos[0] = int(pos[0])
         pos[1] = int(pos[1])
-        if self.game_map.ValidPosition(pos[0], pos[1]) and \
-                self.units[uid].GetPID() == self.turns.CurrentPlayer():
-            self.units[uid].Move(pos[0], pos[1])
+        if self.units.my_unit(uid, self.turns.CurrentPlayer()) and \
+                self.game_map.ValidPosition(pos[0], pos[1]):
+            return self.units.move_unit(uid, pos)
+        return False
 
     def Done(self):
         print("Player" + str(self.turns.CurrentPlayer()) + "'s turn is over.")
-        self.turns.NextPlayer()
-        print("It's Player" + str(self.turns.CurrentPlayer()) + "'s turn.")
+        print("It's Player" + str(self.turns.NextPlayer()) + "'s turn.")
 
     def AttackUnit(self, cmd):
         s_parts = string.split(cmd, " ")
-        try:
-            unit1 = self.units[ int(s_parts[1]) ]
-            unit2 = self.units[ int(s_parts[2]) ]
-        except KeyError as e:
-            print("Invalid UnitID: "+str(e))
-            return False
 
-        # Make sure targeted unit is not your own
-        if unit1.GetPID() == self.turns.CurrentPlayer():
-            print(str(unit1.GetUID()) + " is your own unit. You cannot attack it.")
+        d_unit = self.units.get_unit( int(s_pars[1]) )
+        a_unit = self.units.get_unit( int(s_pars[2]) )
+        # Make sure you're not attacking yourself.
+        if self.units.my_unit(d_unit.GetUID(), self.turns.CurrentPlayer()):
+            print("{} is your own unit. You cannot attack it.".format(d_unit))
             return False
         # Make sure attacking unit is owned by current player
-        if unit2.GetPID() != self.turns.CurrentPlayer():
-            print(str(unit2.GetUID()) + " is not your unit.")
+        if not self.units.my_unit(a_unit.GetUID(), self.turns.CurrentPlayer()):
+            print("{} is not your unit.".format(a_unit))
             return False
         # Units cannot attack themselves
-        if unit1.GetUID() == unit2.GetUID():
+        if d_unit.GetUID() == a_unit.GetUID():
             print("A unit cannot attack itself")
             return False
-
-        u1_type = unit1.GetType()
-        u2_type = unit2.GetType()
-
+        # Get attack multiplier based on Unit types
+        u1_type = d_unit.GetType()
+        u2_type = a_unit.GetType()
         atk_mult = self.attack_matrix.GetAttackMultiplier(u1_type, u2_type)
 
         # If unit1 was unable to defend remove from game
-        if not unit1.Defend(unit2.GetHP(), atk_mult):
-            del(self.units[unit1.GetUID()])
+        if not d_unit.Defend(a_unit.GetHP(), atk_mult):
+            self.units.del_unit(d_unit.GetUID())
 
     def Run(self):
         print("It's Player" + str(self.turns.CurrentPlayer()) + "'s turn.")

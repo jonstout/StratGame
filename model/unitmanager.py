@@ -31,8 +31,16 @@ class UnitManager(object):
     def get_unit(self, u_id):
         return self.units[u_id]
 
+    def get_units(self):
+        for k in self.units:
+            yield self.units[k]
+
+    def my_unit(self, u_id, player_id):
+        return self.units[u_id].GetPID() == player_id
+
     def move_unit(self, u_id, position):
         self.units[u_id].Move(position[0], position[1])
+        return True
 
     def get_position(self, u_id):
         return self.units[u_id].GetPosition()

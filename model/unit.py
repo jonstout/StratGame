@@ -54,8 +54,8 @@ class Unit():
             return False
 
     def __str__(self):
-        uid = "uID: "+str(self.uid)+", "
-        pos = "Position: ["+str(self.X)+", "+str(self.Y)+"], "
-        typ = "Type: "+self.Type
-        hp = "HP: "+str(self.HP)
+        uid = "uID: {}, ".format(self.uid)
+        pos = "Position: [{}, {}], ".format(self.X, self.Y)
+        typ = "Type: {}, ".format(self.Type)
+        hp = "HP: {} ".format(self.HP)
         return(uid+pos+typ+hp)

@@ -1,9 +1,3 @@
-# unit.py
-#
-#
-
-import json
-
 class Unit():
     def __init__(self, _type, _position, _id, player_id):
         self.X = _position[0]

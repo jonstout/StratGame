@@ -9,7 +9,7 @@ from model.turns import Turns
 from model.unit import Unit
 from model.unitmanager import UnitManager
 from model.unitmanager import UnitIdGenerator
-from model.attack_matrix import AttackMatrix
+from model.configuration import Configuration
 
 def SelectGameMap():
     game_maps = os.listdir("./maps/")
@@ -28,7 +28,8 @@ def SelectGameMap():
 if __name__ == "__main__":
     selected_map = SelectGameMap()
 
-    attack_matrix = AttackMatrix("./model/units.json")
+    
+    config = Configuration("./config.json")
     game_map = GameMap("./maps/" + selected_map + ".json")
 
     players = [Player(1), Player(2)]
@@ -42,5 +43,5 @@ if __name__ == "__main__":
         for unit in game_units[player_id]:
             unit_manager.add_unit(unit, int(player_id))
 
-    g = Game(attack_matrix, game_map, players, turns, unit_manager)
+    g = Game(config, game_map, players, turns, unit_manager)
     g.Run()

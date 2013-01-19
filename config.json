@@ -1,0 +1,39 @@
+{
+"attack_matrix" : {
+	"infantry" : {
+		"infantry" : ".8",
+		"tank" : ".1",
+		"mid-tank" : ".05"
+	},
+	"tank" : {
+		"infantry" : "1",
+		"tank" : ".8",
+		"mid-tank" : ".6"
+	},
+	"mid-tank" : {
+		"infantry" : "1.5",
+		"tank" : "1",
+		"mid-tank" : ".8"
+	}
+},
+"buildings" : {
+	"air" : {
+		"hp" : 20
+	},
+	"base" : {
+		"hp" : 20
+	},
+	"hq" : {
+		"hp" : 20
+	},
+	"land" : {
+		"hp" : 20,
+		"infantry" : 1000,
+		"tank" : 1500,
+		"mid-tank" : 1800
+	},
+	"sea" : {
+		"hp" : 20
+	}
+}
+}

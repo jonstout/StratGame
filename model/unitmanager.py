@@ -1,6 +1,4 @@
-from model.unit import Unit
-
-import json
+from unit import Unit
 
 class UnitManager(object):
     def __init__(self):
@@ -46,7 +44,7 @@ class UnitManager(object):
         return self.units[u_id].GetPosition()
 
 def UnitIdGenerator():
-    _id = 1
+    _id = -1
     while True:
         _id += 1
         yield _id

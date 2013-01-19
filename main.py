@@ -34,21 +34,6 @@ if __name__ == "__main__":
     players = [Player(1), Player(2)]
     turns = Turns()
 
-    """
-    units = {}
-
-    if len(players) == game_map.GetNumberOfPlayers():
-        d_units = game_map.GetDefaultUnits()
-        u_gen = UnitIdGenerator()
-
-        for i in range( len(players) ):
-            p_id = players[i].GetPID()
-            turns.AddPlayer(p_id)
-            for u in d_units[i]:
-                unit = Unit(u, p_id, u_gen.next())
-                units[unit.GetUID()] = unit
-
-    """
     game_units = game_map.GetDefaultUnits()
     unit_manager = UnitManager()
     

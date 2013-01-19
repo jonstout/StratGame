@@ -96,6 +96,8 @@ class Game(object):
         # If unit1 was unable to defend remove from game
         if not d_unit.Defend(a_unit.GetHP(), atk_mult):
             self.units.del_unit(d_unit.GetUID())
+            return True
+        return False
 
     def Run(self):
         print("It's Player" + str(self.turns.CurrentPlayer()) + "'s turn.")

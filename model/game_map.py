@@ -15,7 +15,7 @@ class GameMap():
         self.Width = m["dimensions"]["width"]
         
         self.DefaultUnits = m["units"]
-        self.NumberOfPlayers = len(self.DefaultUnits)
+        self.Buildings = m["buildings"]
 
     def ValidPosition(self, x, y):
         if y >= self.Height or y < 0:
@@ -26,8 +26,8 @@ class GameMap():
             return False
         return True
 
-    def GetNumberOfPlayers(self):
-        return self.NumberOfPlayers
+    def GetBuildings(self):
+        return self.Buildings
 
     def GetDefaultUnits(self):
         return self.DefaultUnits

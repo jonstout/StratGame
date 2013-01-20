@@ -1,59 +1,39 @@
 from building import Building
 
-class GameBuildings(object):
-	def __init__(self, config, map_config, player_ids):
-		self.confs = {}
-		self.buildings = {}
-		self.id_gen = BuildingIDGenerator()
+class BuildingManager(object):
+    def __init__(self, json):
+        """
+        """
+        self.id_generator = BuildingIdGenerator()
+        self.buildings = {}
 
-		for btype in config:
-			self.confs[btype] = config[btype]
+        self.configuration = json
 
-		for i in range( len(map_config) ):
-			for bconfig in map_config[i]:
-				x = bconfig["position"][0]
-				y = bconfig["position"][1]
-				btype = bconfig["type"]
-				
-				bid = self.id_gen.next()
-				bhp = self.confs[_type]["hp"]
-				bunits = self.confs[_type]["units"]
-				
-				pid = player_ids[i]
-				self.buildings[bid] = Building(bid, (x,y), bhp, btype, bunits, pid)
+    def add_building(self, json, player_id):
+        """
+        """
+        _id = self.id_generator.next()
+        conf = self.configuration[ json["type"] ]
+        building = Building(json["type"], json["position"], \
+                                conf, _id, player_id)
+        self.buildings[building.GetBID()] = building
+        return _id
 
-	def CaptureBuilding(self, bid, pid, uhp):
-		"""
-		Subtracts the capturing unit's hp from building
-		bid's hp. Returns 0 if the building has	been
-		fully captured, or the remaining hp of the
-		building.
-		"""
-		return self.buildings[bid].Capture(pid, uhp)
+    def capture_building(self, b_id, u_id, u_hp, p_id):
+        return self.buildings[b_id].capture(u_id, u_hp, p_id)
 
-	def GetPosition(self, bid):
-		"""
-		Returns the position of building bid as a tuple
-		in the form (x,y).
-		"""
-		return self.buildings[bid].GetPosition()
+    def get_building(self, b_id):
+        return self.buildings[b_id]
 
-	def OwnedByPlayer(self, bid, pid):
-		"""
-		Returns True if pid is the id of building
-		bid's owner.
-		"""
-		return pid == self.buildings[bid].GetPID()
+    def get_buildings(self):
+        for k in self.buildings:
+            yield self.buildings[k]
 
-	def QuoteUnit(self, bid, utype):
-		"""
-		Returns the cost of a unit or None if the unit
-		type is not buildable.
-		"""
-		return self.buildings[bid].QuoteUnit(utype)
+    def my_building(self, u_id, player_id):
+        return self.buildings[b_id].GetPID() == player_id
 
-def BuildingIDGenerator():
-	bid_start = 100
-	while True :
-		bid_start += 1
-		yield bid_start
+def BuildingIdGenerator():
+    _id = 399
+    while True:
+        _id += 1
+        yield _id

@@ -1,6 +1,4 @@
-# game.py
-#
-#
+# @author Jonathan Stout
 
 import string
 import unit
@@ -34,12 +32,13 @@ class Game(object):
     and can move to new locations that are not occupied by other
     units.
     """
-    def __init__(self, attack_matrix, game_map, players, turns, unit_manager):
+    def __init__(self, attack_matrix, game_map, players, turns, unit_manager, building_manager):
         self.attack_matrix = attack_matrix
         self.game_map = game_map
         self.players = players
         self.turns = turns
         self.units = unit_manager
+        self.buildings = building_manager
         self.game_on = True
 
         print("Board Dimensions:", self.game_map.GetDimensions())

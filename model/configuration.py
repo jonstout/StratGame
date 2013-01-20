@@ -13,5 +13,5 @@ class Configuration(object):
     def GetAttackMultiplier(self, au_type, du_type):
         return self.attack_matrix["attack_matrix"][au_type][du_type]
 
-    def GetBuildingConfig(self, building_type):
-        return self.attack_matrix["buildings"][building_types]
+    def GetBuildingsConfig(self):
+        return self.attack_matrix["buildings"]

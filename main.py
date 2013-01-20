@@ -10,6 +10,7 @@ from model.unit import Unit
 from model.unitmanager import UnitManager
 from model.unitmanager import UnitIdGenerator
 from model.configuration import Configuration
+from model.buildingmanager import BuildingManager
 
 def SelectGameMap():
     game_maps = os.listdir("./maps/")
@@ -37,11 +38,16 @@ if __name__ == "__main__":
 
     game_units = game_map.GetDefaultUnits()
     unit_manager = UnitManager()
-    
     for player_id in game_units:
         turns.AddPlayer( int(player_id) )
         for unit in game_units[player_id]:
             unit_manager.add_unit(unit, int(player_id))
 
-    g = Game(config, game_map, players, turns, unit_manager)
+    game_buildings = game_map.GetBuildings()
+    building_manager = BuildingManager(config.GetBuildingConfig())
+    for player_id in game_buildings:
+        for build in game_buildings[player_id]:
+            building_manager.add_building(build, int(player_id))
+
+    g = Game(config, game_map, players, turns, unit_manager, building_manager)
     g.Run()

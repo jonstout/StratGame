@@ -18,22 +18,28 @@
 },
 "buildings" : {
 	"air" : {
-		"hp" : 20
+		"hp" : 20,
+		"units" : {}
 	},
 	"base" : {
-		"hp" : 20
+		"hp" : 20,
+		"units" : {}
 	},
 	"hq" : {
-		"hp" : 20
+		"hp" : 20,
+		"units" : {}
 	},
 	"land" : {
 		"hp" : 20,
-		"infantry" : 1000,
-		"tank" : 1500,
-		"mid-tank" : 1800
+		"units" : {
+			"infantry" : 1000,
+			"tank" : 1500,
+			"mid-tank" : 1800
+		}
 	},
 	"sea" : {
-		"hp" : 20
+		"hp" : 20,
+		"units" : {}
 	}
 }
 }

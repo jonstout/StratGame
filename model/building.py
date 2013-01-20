@@ -1,13 +1,13 @@
 class Building(object):
-	def __init__(self, bid, bposition, bhp, btype, bunits, pid):
+	def __init__(self, btype, bposition, json, bid, pid):
 		self._id = bid
 		self._x = bposition[0]
 		self._y = bposition[1]
-		self._hp = bhp
-		self.neutral_hp = bhp
-		self.captured_hp = 2 * bhp
+		self._hp = json["hp"]
+		#self.neutral_hp = bhp
+		#self.captured_hp = 2 * bhp
 		self._type = btype
-		self._units = bunits
+		self._units = json["units"]
 		self.player_id = pid
 
 	def Capture(self, pid, uhp):
@@ -31,6 +31,9 @@ class Building(object):
 		Returns the hp of this building.
 		"""
 		return self._hp
+	
+	def GetBID(self):
+		return self._id
 
 	def GetPlayerID(self):
 		"""

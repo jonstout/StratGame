@@ -44,7 +44,7 @@ if __name__ == "__main__":
             unit_manager.add_unit(unit, int(player_id))
 
     game_buildings = game_map.GetBuildings()
-    building_manager = BuildingManager(config.GetBuildingConfig())
+    building_manager = BuildingManager(config.GetBuildingsConfig())
     for player_id in game_buildings:
         for build in game_buildings[player_id]:
             building_manager.add_building(build, int(player_id))

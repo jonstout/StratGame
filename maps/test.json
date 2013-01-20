@@ -1,6 +1,13 @@
 {
-"buildings" : [
-	[{
+"buildings" : {
+	"-1" : [
+	{
+		"type" : "land",
+		"position" : [4,2]
+	}
+	],
+	"0" : [
+	{
 		"type" : "land",
 		"position" : [2,2]
 	},
@@ -16,7 +23,8 @@
 		"type" : "base",
 		"position" : [2,5]
 	}],
-	[{
+	"1" : [
+	{
 		"type" : "land",
 		"position" : [3,2]
 	},
@@ -32,7 +40,7 @@
 		"type" : "base",
 		"position" : [3,5]
 	}]
-],
+},
 "dimensions" : {
 	     "width" : 8,
 	     "height" : 6
@@ -47,7 +55,8 @@
 		"type" : "infantry",
 		"position" : [1, 0]
 	}],
-	"1": [{
+	"1": [
+	{
 		"type" : "infantry",
 		"position" : [6, 3]
 	},

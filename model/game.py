@@ -1,11 +1,6 @@
 # @author Jonathan Stout
 
 import string
-import unit
-from unit import Unit
-from unitmanager import UnitIdGenerator
-from gamemap import GameMap
-from turns import Turns
 
 class Game(object):
     """ Game

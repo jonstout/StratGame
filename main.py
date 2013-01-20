@@ -1,4 +1,4 @@
-# Advance Wars Clone
+# @author Jonathan Stout
 
 import os
 
@@ -8,7 +8,6 @@ from model.player import Player
 from model.turns import Turns
 from model.unit import Unit
 from model.unitmanager import UnitManager
-from model.unitmanager import UnitIdGenerator
 from model.configuration import Configuration
 from model.buildingmanager import BuildingManager
 

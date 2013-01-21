@@ -41,5 +41,8 @@
 		"hp" : 20,
 		"units" : {}
 	}
+},
+"maps" : {
+	"0" : "./maps/test.json"
 }
 }

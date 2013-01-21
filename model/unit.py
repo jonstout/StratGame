@@ -39,13 +39,8 @@ class Unit():
         @arg u_attack_multiplier: Attack mult. of attacking unit
         """
         self.HP -= int( float(u_attack_multiplier) * u_hp )
-
-        if self.HP > 0:
-            print("Unit "+str(self.uid)+": "+str(self.HP)+" life left")
-            return True
-        else:
-            print("Destroyed Unit "+str(self.uid))
-            return False
+        
+        return (self.HP, u_hp)
 
     def __str__(self):
         uid = "uID: {}, ".format(self.uid)

@@ -2,6 +2,14 @@
 
 import string
 
+from model.game_map import GameMap
+from model.player import Player
+from model.turns import Turns
+from model.unit import Unit
+from model.unitmanager import UnitManager
+from model.configuration import Configuration
+from model.buildingmanager import BuildingManager
+
 class Game(object):
     """ Game
     self.unit_factories - type(map[player_id]UnitFactory)
@@ -27,16 +35,48 @@ class Game(object):
     and can move to new locations that are not occupied by other
     units.
     """
-    def __init__(self, attack_matrix, game_map, players, turns, unit_manager, building_manager):
-        self.attack_matrix = attack_matrix
-        self.game_map = game_map
-        self.players = players
-        self.turns = turns
-        self.units = unit_manager
-        self.buildings = building_manager
+    def __init__(self, config):
+        self.config = Configuration(config)
+        self.turns = Turns()
+
+        self.game_map = None
+        self.units = None
+        self.buildings = None
         self.game_on = True
 
-        print("Board Dimensions:", self.game_map.GetDimensions())
+    def get_gamemaps(self):
+        maps = self.config.GetGamemaps()
+        for m in maps:
+            yield (m, maps[m])
+
+    def load_gamemap(self, _id):
+        self.game_map = GameMap(self.config.GetGamemapSource(_id))
+
+        game_units = self.game_map.GetDefaultUnits()
+        self.units = UnitManager()
+        for player_id in game_units:
+            self.turns.AddPlayer( int(player_id) )
+            for unit in game_units[player_id]:
+                self.units.add_unit(unit, int(player_id))
+
+        game_buildings = self.game_map.GetBuildings()
+        self.buildings = BuildingManager(self.config.GetBuildingsConfig())
+        for player_id in game_buildings:
+            for build in game_buildings[player_id]:
+                self.buildings.add_building(build, int(player_id))
+        return True
+
+    def end_game(self):
+        self.game_on = False
+
+    def game_over(self):
+        return not self.game_on
+
+    def get_current_player(self):
+        return self.turns.CurrentPlayer()
+
+    def next_player(self):
+        return self.turns.NextPlayer()
 
     def ListUnits(self):
         """
@@ -46,74 +86,28 @@ class Game(object):
         for u in self.units.get_units():
             print u
     
-    def MoveUnit(self, cmd):
+    def MoveUnit(self, uid, pos):
         """
         Moves a unit if the movement is valid. Returns True if a
         valid move; Else False.
         """
-        s_parts = string.split(cmd, " ")
-        uid = int(s_parts[1])
-        pos = string.split(s_parts[2], ".")
-        pos[0] = int(pos[0])
-        pos[1] = int(pos[1])
         if self.units.my_unit(uid, self.turns.CurrentPlayer()) and \
                 self.game_map.ValidPosition(pos[0], pos[1]):
             return self.units.move_unit(uid, pos)
         return False
 
-    def Done(self):
-        print("Player" + str(self.turns.CurrentPlayer()) + "'s turn is over.")
-        print("It's Player" + str(self.turns.NextPlayer()) + "'s turn.")
+    def my_unit(self, uid):
+        return self.units.my_unit(uid, self.turns.CurrentPlayer())
 
-    def AttackUnit(self, cmd):
-        s_parts = string.split(cmd, " ")
-
-        d_unit = self.units.get_unit( int(s_parts[1]) )
-        a_unit = self.units.get_unit( int(s_parts[2]) )
-        # Make sure attacking unit is owned by current player
-        if not self.units.my_unit(a_unit.GetUID(), self.turns.CurrentPlayer()):
-            print("{} is not your unit.".format(a_unit.GetUID()))
-            return False
-        # Make sure you're not attacking yourself.
-        if self.units.my_unit(d_unit.GetUID(), self.turns.CurrentPlayer()):
-            print("{} is your own unit. You cannot attack it.".format(d_unit.GetUID()))
-            return False
+    def AttackUnit(self, dunit, aunit):
+        d_unit = self.units.get_unit(dunit)
+        a_unit = self.units.get_unit(aunit)
         # Get attack multiplier based on Unit types
         u1_type = d_unit.GetType()
         u2_type = a_unit.GetType()
-        atk_mult = self.attack_matrix.GetAttackMultiplier(u1_type, u2_type)
+        atk_mult = self.config.GetAttackMultiplier(u1_type, u2_type)
         # If unit1 was unable to defend remove from game
-        if not d_unit.Defend(a_unit.GetHP(), atk_mult):
+        battle_res = d_unit.Defend(a_unit.GetHP(), atk_mult)
+        if battle_res[0] <= 0:
             self.units.del_unit(d_unit.GetUID())
-            return True
-        return False
-
-    def Run(self):
-        print("It's Player" + str(self.turns.CurrentPlayer()) + "'s turn.")
-
-        # Start game command loop
-        while self.game_on:
-            cmd = raw_input("$ ")
-
-            if cmd == "exit":
-                self.game_on = False
-            elif cmd == "help":
-                print("exit - End program")
-                print("help - Print this help message")
-                print("list_units - List available units and their location")
-                print("attack_unit <u1> <u2> - Attack unit u1 with unit u2")
-                print("move_unit <u1> <x>.<y> - Move unit u1 to position (x, y)")
-                print("done - End player's turn")
-            elif cmd == "list_units":
-                self.ListUnits()
-            elif cmd[:9] == "move_unit":
-                self.MoveUnit(cmd)
-            elif cmd[:11] == "attack_unit":
-                self.AttackUnit(cmd)
-            elif cmd == "done":
-                self.Done()
-            else:
-                print("Bad command")
-
-        # Game loop has been broken by exit command
-        print("Game Over")
+        return battle_res

@@ -17,7 +17,6 @@ class BuildingManager(object):
         building = Building(json["type"], json["position"], \
                                 conf, _id, player_id)
         self.buildings[building.GetBID()] = building
-        print(building)
         return _id
 
     def capture_building(self, b_id, u_id, u_hp, p_id):

@@ -21,7 +21,7 @@ class Cli(object):
                 print("exit - End program")
                 print("help - Print this help message")
                 print("list_units - List all game units and their location")
-                print("list_buildings - List all game buildings on the map.")
+                print("list_buildings - List all game buildings on the map")
                 print("attack_unit <u1> <u2> - Attack unit u1 with unit u2")
                 print("move_unit <u1> <x>.<y> - Move unit u1 to position (x, y)")
                 print("done - End player's turn")

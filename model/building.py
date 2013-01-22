@@ -85,3 +85,8 @@ class Building(object):
 		type is not buildable.
 		"""
 		return self._units[utype] if utype in self._units else None
+    
+	def __str__(self):
+		s = "bID: {}, Position: ({}, {}), ".format(self._type, self._x, self._y)
+		s += "pID: {}, HP: {}, Units: {}".format(self.player_id, self._hp, self._units)
+		return s

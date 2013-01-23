@@ -59,15 +59,12 @@ class Building(object):
 		Returns a list of tuples in the form of
 		( str.unit_type, int.unit_cost, boolean.unit_valid ).
 		"""
-		result = []
-
-		for t in self._units:
-			valid = False
-			if self._units[t] > pcredit:
-				valid = True
-			result.append( (t, self._units[t], valid) )
-
-		return result
+		for _type in self._units:
+			if self._units[_type] > pcredit:
+				#valid = True
+				yield (_type, self._units[_type], True)
+			else:
+				yield (_type, self._units[_type], False)
 
 	def RestoreHP(self):
 		"""

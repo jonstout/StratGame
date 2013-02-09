@@ -12,6 +12,7 @@ from model.buildingmanager import BuildingManager
 
 class Game(object):
     """ Game
+    self.config
     self.unit_factories - type(map[player_id]UnitFactory)
     - This is a list of all unit factories. This is where
     all units can be built.

@@ -1,4 +1,3 @@
-
 # A* on graph
 
 gmap = [

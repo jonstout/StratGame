@@ -3,6 +3,8 @@ from building import Building
 class BuildingManager(object):
     def __init__(self, json):
         """
+        BuildingManager is responsible for tracking all
+        buildings.
         """
         self.id_generator = BuildingIdGenerator()
         self.buildings = {}
@@ -11,6 +13,7 @@ class BuildingManager(object):
 
     def add_building(self, json, player_id):
         """
+        Builds a building from the json config.
         """
         _id = self.id_generator.next()
         conf = self.configuration[ json["type"] ]
@@ -19,8 +22,12 @@ class BuildingManager(object):
         self.buildings[_id] = building
         return _id
 
-    def capture_building(self, b_id, u_id, u_hp, p_id):
-        return self.buildings[b_id].Capture(u_id, u_hp, p_id)
+    def capture_building(self, b_id, p_id, u_hp):
+        """
+        Attempts to capture self.buildings[b_id] for player p_id
+        with u
+        """
+        return self.buildings[b_id].capture(p_id, u_hp)
 
     def get_building(self, b_id):
         return self.buildings[b_id]

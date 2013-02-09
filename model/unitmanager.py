@@ -3,12 +3,8 @@ from unit import Unit
 class UnitManager(object):
     def __init__(self):
         """
-        A UnitManager is responsible for keeping track of all
+        UnitManager is responsible for keeping track of all
         game units.
-        {
-        "0": [ {"type": "infantry", "position": [1, 1]} ],
-        "1": [ {"type": "infantry", "position": [1, 2]} ]
-        }
         """
         self.id_generator = UnitIdGenerator()
         self.units = {}

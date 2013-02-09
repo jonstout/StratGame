@@ -10,7 +10,7 @@ class Building(object):
 		self._units = json["units"]
 		self.player_id = pid
 
-	def Capture(self, uid, pid, uhp):
+	def capture(self, pid, uhp):
 		"""
 		Subtracts the capturing unit's hp from this
 		buildings hp. Returns 0 if the building has

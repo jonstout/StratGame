@@ -46,11 +46,18 @@ class Game(object):
         self.game_on = True
 
     def get_gamemaps(self):
+        """
+        Yields a pair of a map key and a game map.
+        """
         maps = self.config.GetGamemaps()
         for m in maps:
             yield (m, maps[m])
 
     def load_gamemap(self, _id):
+        """
+        Loads the map at _id, including default game units and
+        buildings.
+        """
         self.game_map = GameMap(self.config.GetGamemapSource(_id))
 
         game_units = self.game_map.GetDefaultUnits()
@@ -68,18 +75,34 @@ class Game(object):
         return True
 
     def end_game(self):
+        """
+        Sets self.game_on to False ending the game loop.
+        """
         self.game_on = False
 
     def game_over(self):
+        """
+        Returns True if the game has been ended.
+        """
         return not self.game_on
 
     def get_current_player(self):
+        """
+        Returns the player_id of the player whose turn it is.
+        """
         return self.turns.CurrentPlayer()
 
     def next_player(self):
+        """
+        Returns the player_id of the next player whose turn it
+        is, and sets the current_player to the next player's id.
+        """
         return self.turns.NextPlayer()
 
     def ListBuildings(self):
+        """
+        Yields all buildings on the current game map.
+        """
         result = self.buildings.get_buildings()
         for b in result:
             yield result[b]
@@ -103,6 +126,10 @@ class Game(object):
         return False
 
     def my_unit(self, uid):
+        """
+        Returns True if uid is owned by the player whose turn it
+        is.
+        """
         return self.units.my_unit(uid, self.turns.CurrentPlayer())
 
     def AttackUnit(self, dunit, aunit):

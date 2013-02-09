@@ -79,6 +79,11 @@ class Game(object):
     def next_player(self):
         return self.turns.NextPlayer()
 
+    def ListBuildings(self):
+        result = self.buildings.get_buildings()
+        for b in result:
+            yield result[b]
+
     def ListUnits(self):
         """
         Lists all units in the game. Of course you can only use

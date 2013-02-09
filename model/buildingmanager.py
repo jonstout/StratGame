@@ -33,8 +33,7 @@ class BuildingManager(object):
         return self.buildings[b_id]
 
     def get_buildings(self):
-        for k in self.buildings:
-            yield self.buildings[k]
+        return self.buildings
 
     def my_building(self, u_id, player_id):
         return self.buildings[b_id].GetPID() == player_id

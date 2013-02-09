@@ -10,13 +10,15 @@ class Building(object):
 		self._units = json["units"]
 		self.player_id = pid
 
-	def Capture(self, pid, uhp):
+	def Capture(self, uid, pid, uhp):
 		"""
 		Subtracts the capturing unit's hp from this
 		buildings hp. Returns 0 if the building has
 		been fully captured, or the remaining hp of
 		the building.
 		"""
+		# Figure out how to trace hp so if a unit
+		# stops caping, the building hp is recovered.
 		tmp_hp = self._hp - uhp
 		if tmp_hp > 0:
 			self._hp = tmp_hp

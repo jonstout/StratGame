@@ -20,7 +20,7 @@ class BuildingManager(object):
         return _id
 
     def capture_building(self, b_id, u_id, u_hp, p_id):
-        return self.buildings[b_id].capture(u_id, u_hp, p_id)
+        return self.buildings[b_id].Capture(u_id, u_hp, p_id)
 
     def get_building(self, b_id):
         return self.buildings[b_id]

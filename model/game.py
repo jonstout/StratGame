@@ -115,6 +115,18 @@ class Game(object):
         for u in self.units.get_units():
             print u
     
+    def get_valid_moves(self, uid):
+        """
+        Returns a list of valid movements for unit uid.
+        """
+        unit = self.units.get_unit(uid)
+        pos = unit.GetPosition()
+        # mvmt = unit.GetMovementAbility()
+        costMap = self.game_map.GetCostMap()
+
+        # unit_position, unit_movement_ability, and cost_map
+        # return util.get_adjacent_tiles(pos, mvmt, costMap)
+
     def MoveUnit(self, uid, pos):
         """
         Moves a unit if the movement is valid. Returns True if a

@@ -16,6 +16,10 @@ class GameMap():
         
         self.DefaultUnits = m["units"]
         self.Buildings = m["buildings"]
+        self.CostMap = m["cost_map"]
+
+    def GetCostMap(self):
+        return self.CostMap
 
     def ValidPosition(self, x, y):
         if y >= self.Height or y < 0:

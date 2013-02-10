@@ -1,4 +1,4 @@
-
+# @author Jonathan Stout
 """
 Given a 2d array...
 [
@@ -13,34 +13,6 @@ Space u is never counted against movement ability
 For example if unit exits at u with a movement ability of 3,
 then u could move to spaces labeled with x.
 """
-
-costMap1 = [
-[1, 2, 3, 2, 1],
-[1, 1, 2, 1, 1],
-[1, 1, 5, 2, 1],
-[1, 1, 2, 2, 2],
-[1, 1, 2, 2, 1]]
-
-costMap2 = [
-[1, 2, 1, 2, 1],
-[1, 1, 2, 1, 1],
-[1, 2, 5, 2, 1],
-[1, 1, 2, 1, 2],
-[1, 1, 2, 2, 1]]
-
-costMap3 = [
-[2, 2, 2, 2, 2],
-[2, 2, 2, 2, 2],
-[2, 2, 5, 2, 2],
-[2, 2, 2, 2, 2],
-[2, 2, 2, 2, 2]]
-
-costMap4 = [
-[2, 2, 2, 2, 2],
-[2, 2, 2, 2, 2],
-[2, 1, 5, 1, 2],
-[2, 2, 2, 2, 2],
-[2, 2, 2, 2, 2]]
 
 unitMovementAbility = 3
 unitPosition = (2,2)
@@ -94,10 +66,42 @@ def check_adjacent_tiles(costMap, pos, movCost):
         check_adjacent_tiles(costMap, wpos, movCost - w )
     return
 
-def test():
-    global costMap1
-    global visitedSpaces
+def get_tiles(costMap, unitMovement, unitPosition):
+    check_adjacent_tiles(costMap, unitPosition, unitMovement)
+    tmp = visitedSpaces
+    visitedSpaces = []
+    return tmp    
 
+def test():
+    costMap1 = [
+        [1, 2, 3, 2, 1],
+        [1, 1, 2, 1, 1],
+        [1, 1, 5, 2, 1],
+        [1, 1, 2, 2, 2],
+        [1, 1, 2, 2, 1]]
+    
+    costMap2 = [
+        [1, 2, 1, 2, 1],
+        [1, 1, 2, 1, 1],
+        [1, 2, 5, 2, 1],
+        [1, 1, 2, 1, 2],
+        [1, 1, 2, 2, 1]]
+    
+    costMap3 = [
+        [2, 2, 2, 2, 2],
+        [2, 2, 2, 2, 2],
+        [2, 2, 5, 2, 2],
+        [2, 2, 2, 2, 2],
+        [2, 2, 2, 2, 2]]
+    
+    costMap4 = [
+        [2, 2, 2, 2, 2],
+        [2, 2, 2, 2, 2],
+        [2, 1, 5, 1, 2],
+        [2, 2, 2, 2, 2],
+        [2, 2, 2, 2, 2]]
+    global visitedSpaces
+    
     print_map(costMap1)
     check_adjacent_tiles(costMap1, unitPosition, unitMovementAbility)
     print visitedSpaces

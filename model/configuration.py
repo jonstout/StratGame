@@ -9,7 +9,7 @@ class Configuration(object):
         f.close()
 
     def GetAttackMultiplier(self, au_type, du_type):
-        return self.config["attack_matrix"][au_type][du_type]
+        return self.config["units"][au_type]["attack_matrix"][du_type]
 
     def GetBuildingsConfig(self):
         return self.config["buildings"]

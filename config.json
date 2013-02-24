@@ -1,19 +1,28 @@
 {
-"attack_matrix" : {
+"units" : {
 	"infantry" : {
-		"infantry" : ".8",
-		"tank" : ".1",
-		"mid-tank" : ".05"
+		"attack_matrix" : {
+			"infantry" : ".8",
+			"tank" : ".1",
+			"mid-tank" : ".05"
+		},
+		"range" : 3
 	},
 	"tank" : {
-		"infantry" : "1",
-		"tank" : ".8",
-		"mid-tank" : ".6"
+		"attack_matrix" : {
+			"infantry" : "1",
+			"tank" : ".8",
+			"mid-tank" : ".6"
+		},
+		"range" : 8
 	},
 	"mid-tank" : {
-		"infantry" : "1.5",
-		"tank" : "1",
-		"mid-tank" : ".8"
+			"attack_matrix" : {
+			"infantry" : "1.5",
+			"tank" : "1",
+			"mid-tank" : ".8"
+		},
+		"range" : 6
 	}
 },
 "buildings" : {

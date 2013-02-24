@@ -35,7 +35,7 @@ class BuildingManager(object):
     def get_buildings(self):
         return self.buildings
 
-    def my_building(self, u_id, player_id):
+    def my_building(self, b_id, player_id):
         return self.buildings[b_id].GetPID() == player_id
 
 def BuildingIdGenerator():

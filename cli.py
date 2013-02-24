@@ -17,7 +17,7 @@ class Cli(object):
 
             if cmd[0] == "exit":
                 self.game.end_game()
-            elif cmd == "help":
+            elif cmd[0] == "help":
                 print("exit - End program")
                 print("help - Print this help message")
                 print("list_units - List all game units and their location")
